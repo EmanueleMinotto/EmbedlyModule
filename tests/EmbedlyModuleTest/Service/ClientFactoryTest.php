@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedlyModuleTest\Service;
 
 use EmbedlyModule\Service\ClientFactory;
@@ -11,38 +12,91 @@ use PHPUnit_Framework_TestCase;
  */
 class ClientFactoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \EmbedlyModule\Service\ClientFactory
+     */
     private $object;
+
+    /**
+     * @var \Zend\ServiceManager\ServiceManager
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     private $serviceManager;
 
+    /**
+     * Mock service manager.
+     */
     public function setUp()
     {
         $this->serviceManager = $this->getMockBuilder('Zend\\ServiceManager\\ServiceManager')
-                     ->disableOriginalConstructor()
-                     ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->object = new ClientFactory();
     }
 
-        /**
-        * @covers ::createService
-        */
+    /**
+     * @covers ::createService
+     */
     public function testCreateService()
     {
-        $this->assertInstanceOf(
-            'EmanueleMinotto\\Embedly\\Client',
-            $this->object->createService($this->serviceManager)
-        );
+        $service = $this->object->createService($this->serviceManager);
+
+        $this->assertInstanceOf('EmanueleMinotto\\Embedly\\Client', $service);
     }
 
-    public function testCreateGoodService()
+    /**
+     * @covers ::createService
+     * @dataProvider wrongConfigurationDataProvider
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testCreateServiceWithWrongConfiguration($config)
     {
         $this->serviceManager->method('get')
             ->with('Config')
-            ->willReturn(array(
+            ->willReturn($config);
+
+        $this->object->createService($this->serviceManager);
+    }
+
+    /**
+     * @return array
+     */
+    public function wrongConfigurationDataProvider()
+    {
+        return array(
+            array(),
+            array(
+                'embedly' => 'scalar',
+            ),
+            array(
+                'embedly' => array(),
+            ),
+            array(
                 'embedly' => array(
-                    'api_key' => "clear",
+                    'api_key' => null,
                 ),
-            ));
-        $service = $this->object->createService($this->serviceManager);
-        $this->assertInstanceOf("EmanueleMinotto\\Embedly\\Client", $service);
+            ),
+            array(
+                'embedly' => array(
+                    'http_client' => null,
+                ),
+            ),
+            array(
+                'embedly' => array(
+                    'api_key' => 'correct',
+                ),
+            ),
+            array(
+                'embedly' => array(
+                    'api_key' => array(),
+                ),
+            ),
+            array(
+                'embedly' => array(
+                    'http_client' => array(),
+                ),
+            ),
+        );
     }
 }
