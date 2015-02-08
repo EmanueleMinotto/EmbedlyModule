@@ -15,4 +15,10 @@ return array(
             'EmbedlyModule\\Service\\Client' => 'EmbedlyModule\\Service\\ClientFactory',
         ),
     ),
+    // View support
+    'view_helpers' => array(
+        'invokables' => array(
+            'embedly' => 'EmbedlyModule\\View\\Helper\\Embedly',
+        ),
+    ),
 );
