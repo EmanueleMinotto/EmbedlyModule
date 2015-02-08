@@ -36,7 +36,7 @@ $embedly = $this->getServiceLocator()->get('embedly');
 Configuration
 -------------
 
-The module doesn't need a configuration to be used, but you can add an API key and
+The module doesn't need a configuration to be used, but you can add an [API key](http://embed.ly/docs/api/authentication) and
 a reference to a [Guzzle 5](http://docs.guzzlephp.org/en/latest/) client.
 
 ```php
