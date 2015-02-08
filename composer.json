@@ -14,6 +14,11 @@
             "EmbedlyModule\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "EmbedlyModuleTest\\": "tests/"
+        }
+    },
     "description": "Embed.ly module for Zend Framework 2",
     "keywords": [
         "embed",
@@ -28,6 +33,7 @@
         "emanueleminotto/embedly": "~1.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.5"
+        "phpunit/phpunit": "~4.5",
+        "zendframework/zend-mvc": "~2.3"
     }
 }
