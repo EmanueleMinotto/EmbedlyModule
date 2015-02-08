@@ -7,8 +7,11 @@
         }
     ],
     "autoload": {
+        "classmap": [
+            "./Module.php"
+        ],
         "psr-0": {
-            "EmanueleMinotto\\EmbedlyModule\\": "src/"
+            "EmbedlyModule\\": "src/"
         }
     },
     "description": "Embed.ly module for Zend Framework 2",

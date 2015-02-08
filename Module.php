@@ -1,8 +1,19 @@
 <?php
+
+namespace EmbedlyModule;
+
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+
 /**
- * This file is placed here for compatibility with ZendFramework 2's ModuleManager.
- * It allows usage of this module even without composer.
- * The original Module.php is in 'src/EmanueleMinotto/EmbedlyModule/Module.php' in order to
- * respect the PSR-0 convention
+ * {@inheritdoc}
  */
-require_once __DIR__.'/src/EmanueleMinotto/EmbedlyModule/Module.php';
+class Module implements ConfigProviderInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfig()
+    {
+        return require __DIR__.'/config/module.config.php';
+    }
+}
