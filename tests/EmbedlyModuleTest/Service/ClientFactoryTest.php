@@ -66,36 +66,52 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
     public function wrongConfigurationDataProvider()
     {
         return array(
-            array(),
             array(
-                'embedly' => 'scalar',
+                array(),
             ),
             array(
-                'embedly' => array(),
-            ),
-            array(
-                'embedly' => array(
-                    'api_key' => null,
+                array(
+                    'embedly' => 'scalar',
                 ),
             ),
             array(
-                'embedly' => array(
-                    'http_client' => null,
+                array(
+                    'embedly' => array(),
                 ),
             ),
             array(
-                'embedly' => array(
-                    'api_key' => 'correct',
+                array(
+                    'embedly' => array(
+                        'api_key' => null,
+                    ),
                 ),
             ),
             array(
-                'embedly' => array(
-                    'api_key' => array(),
+                array(
+                    'embedly' => array(
+                        'http_client' => null,
+                    ),
                 ),
             ),
             array(
-                'embedly' => array(
-                    'http_client' => array(),
+                array(
+                    'embedly' => array(
+                        'api_key' => 'correct',
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'embedly' => array(
+                        'api_key' => array(),
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'embedly' => array(
+                        'http_client' => array(),
+                    ),
                 ),
             ),
         );
