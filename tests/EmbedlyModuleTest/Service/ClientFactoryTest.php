@@ -71,11 +71,6 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array(
-                    'embedly' => 'scalar',
-                ),
-            ),
-            array(
-                array(
                     'embedly' => array(),
                 ),
             ),
