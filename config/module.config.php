@@ -4,7 +4,7 @@ return array(
     // Embedly configuration
     'embedly' => array(
         'api_key' => null,
-        'http_client' => null,
+        'http_client' => 'GuzzleHttp\\Client',
     ),
     // Service Manager configuration
     'service_manager' => array(
@@ -13,6 +13,9 @@ return array(
         ),
         'factories' => array(
             'EmbedlyModule\\Service\\Client' => 'EmbedlyModule\\Service\\ClientFactory',
+            'GuzzleHttp\\Client' => function ($serviceManager) {
+                return new \GuzzleHttp\Client();
+            },
         ),
     ),
     // View support

@@ -43,6 +43,7 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
         $service = $this->object->createService($this->serviceManager);
 
         $this->assertInstanceOf('EmanueleMinotto\\Embedly\\Client', $service);
+        $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $service->getHttpClient());
     }
 
     /**

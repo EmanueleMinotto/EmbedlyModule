@@ -19,14 +19,9 @@ class ClientFactory implements FactoryInterface
         $config = $serviceLocator->get('Config');
         $config = $config['embedly'];
 
-        // If the "http_client" value is not null, check if
-        // the service locator has the service and use it
-        $httpClient = $config['http_client'];
-
-        if (null !== $httpClient && $serviceLocator->has($httpClient)) {
-            $httpClient = $serviceLocator->get($httpClient);
-        }
-
-        return new Client($config['api_key'], $httpClient);
+        return new Client(
+            $config['api_key'],
+            $serviceLocator->get($config['http_client'])
+        );
     }
 }
