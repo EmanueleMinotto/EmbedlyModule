@@ -4,6 +4,8 @@ namespace EmbedlyModuleTest\Service;
 
 use EmbedlyModule\Service\ClientFactory;
 use PHPUnit_Framework_TestCase;
+use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * @author Emanuele Minotto <minottoemanuele@gmail.com>
@@ -13,34 +15,27 @@ use PHPUnit_Framework_TestCase;
 class ClientFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \EmbedlyModule\Service\ClientFactory
-     */
-    private $object;
-
-    /**
-     * @var \Zend\ServiceManager\ServiceManager
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $serviceManager;
-
-    /**
-     * Mock service manager.
-     */
-    public function setUp()
-    {
-        $this->serviceManager = $this->getMockBuilder('Zend\\ServiceManager\\ServiceManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->object = new ClientFactory();
-    }
-
-    /**
      * @covers ::createService
      */
     public function testCreateService()
     {
-        $service = $this->object->createService($this->serviceManager);
+        $serviceManager = new ServiceManager(new ServiceManagerConfig());
+        $serviceManager->setService('ApplicationConfig', array(
+            'modules' => array(
+                'EmbedlyModule',
+            ),
+            'module_listener_options' => array(
+                'config_glob_paths' => array(),
+                'module_paths' => array(),
+            ),
+        ));
+        $serviceManager->setFactory('ServiceListener', 'Zend\\Mvc\\Service\\ServiceListenerFactory');
+
+        $moduleManager = $serviceManager->get('ModuleManager');
+        $moduleManager->loadModules();
+
+        $object = new ClientFactory();
+        $service = $object->createService($serviceManager);
 
         $this->assertInstanceOf('EmanueleMinotto\\Embedly\\Client', $service);
         $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $service->getHttpClient());
@@ -53,11 +48,16 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateServiceWithWrongConfiguration($config)
     {
-        $this->serviceManager->method('get')
+        $serviceManager = $this->getMockBuilder('Zend\\ServiceManager\\ServiceManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $serviceManager->method('get')
             ->with('Config')
             ->willReturn($config);
 
-        $this->object->createService($this->serviceManager);
+        $object = new ClientFactory();
+        $object->createService($serviceManager);
     }
 
     /**
