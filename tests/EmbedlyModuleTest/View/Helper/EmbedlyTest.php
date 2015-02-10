@@ -3,8 +3,9 @@
 namespace EmbedlyModuleTest\Service;
 
 use EmbedlyModule\View\Helper\Embedly;
-use EmanueleMinotto\Embedly\Client;
 use PHPUnit_Framework_TestCase;
+use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * @author Emanuele Minotto <minottoemanuele@gmail.com>
@@ -25,9 +26,37 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
 
         $options['url'] = 'http://placehold.it/50';
 
-        $viewHelper = new Embedly(new Client($_ENV['api_key']));
-        $displayed = $viewHelper->__invoke($method, $options);
+        $serviceManager = new ServiceManager(new ServiceManagerConfig());
+        $serviceManager->setService('ApplicationConfig', array(
+            'modules' => array(
+                'EmbedlyModule',
+            ),
+            'module_listener_options' => array(
+                'config_glob_paths' => array(),
+                'module_paths' => array(),
+            ),
+        ));
+        $serviceManager->setFactory('ServiceListener', 'Zend\\Mvc\\Service\\ServiceListenerFactory');
 
+        $moduleManager = $serviceManager->get('ModuleManager');
+        $moduleManager->loadModules();
+
+        $viewHelperManager = $serviceManager->get('viewhelpermanager');
+        $this->assertTrue($viewHelperManager->has('embedly'));
+
+        // EmbedlyModule configuration override
+        $serviceManager->setAllowOverride(true);
+        $config = $serviceManager->get('Config');
+
+        $config['embedly']['api_key'] = $_ENV['api_key'];
+
+        $serviceManager->setService('Config', $config);
+        // EmbedlyModule configuration override (END)
+
+        $viewHelper = $viewHelperManager->get('embedly');
+        $this->assertInstanceOf('EmbedlyModule\\View\\Helper\\Embedly', $viewHelper);
+
+        $displayed = $viewHelper->__invoke($method, $options);
         $this->assertInternalType('string', $displayed);
     }
 
