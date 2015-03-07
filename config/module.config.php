@@ -20,8 +20,11 @@ return array(
     ),
     // View support
     'view_helpers' => array(
-        'invokables' => array(
-            'embedly' => 'EmbedlyModule\\View\\Helper\\Embedly',
+        'aliases' => array(
+            'embedlyDisplay' => 'EmbedlyModule\\View\\Helper\\EmbedlyHelper',
+        ),
+        'factories' => array(
+            'EmbedlyModule\\View\\Helper\\EmbedlyHelper' => 'EmbedlyModule\\View\\Helper\\EmbedlyHelperFactory',
         ),
     ),
 );

@@ -1,6 +1,6 @@
 <?php
 
-namespace EmbedlyModuleTest\Service;
+namespace EmbedlyModuleTest\View\Helper;
 
 use EmbedlyModule\View\Helper\Embedly;
 use PHPUnit_Framework_TestCase;
@@ -42,7 +42,7 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
         $moduleManager->loadModules();
 
         $viewHelperManager = $serviceManager->get('viewhelpermanager');
-        $this->assertTrue($viewHelperManager->has('embedly'));
+        $this->assertTrue($viewHelperManager->has('embedlyDisplay'));
 
         // EmbedlyModule configuration override
         $serviceManager->setAllowOverride(true);
@@ -53,8 +53,8 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
         $serviceManager->setService('Config', $config);
         // EmbedlyModule configuration override (END)
 
-        $viewHelper = $viewHelperManager->get('embedly');
-        $this->assertInstanceOf('EmbedlyModule\\View\\Helper\\Embedly', $viewHelper);
+        $viewHelper = $viewHelperManager->get('embedlyDisplay');
+        $this->assertInstanceOf('EmbedlyModule\\View\\Helper\\EmbedlyHelper', $viewHelper);
 
         $displayed = $viewHelper->__invoke($method, $options);
         $this->assertInternalType('string', $displayed);
