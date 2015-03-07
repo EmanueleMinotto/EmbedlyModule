@@ -54,7 +54,7 @@ View Helper
 A view helper is provided in this module, the method `embedly` works like the library `display` method (*[ref](https://github.com/EmanueleMinotto/Embedly#display)*).
 
 ```html+php
-<img src="<?php echo $this->embedly('resize', [
+<img src="<?php echo $this->embedlyDisplay('resize', [
     'url' => 'http://placehold.it/500',
     'width' => 100,
     'height' => 100,
