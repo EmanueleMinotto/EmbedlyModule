@@ -18,7 +18,7 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
      * @covers ::__invoke
      * @dataProvider displayDataProvider
      */
-    public function testCreateService($method, array $options = array())
+    public function testCreateService($method, array $options = [])
     {
         if (!$_ENV['api_key']) {
             $this->markTestSkipped('API key is required.');
@@ -27,15 +27,15 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
         $options['url'] = 'http://placehold.it/50';
 
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
-        $serviceManager->setService('ApplicationConfig', array(
-            'modules' => array(
+        $serviceManager->setService('ApplicationConfig', [
+            'modules' => [
                 'EmbedlyModule',
-            ),
-            'module_listener_options' => array(
-                'config_glob_paths' => array(),
-                'module_paths' => array(),
-            ),
-        ));
+            ],
+            'module_listener_options' => [
+                'config_glob_paths' => [],
+                'module_paths'      => [],
+            ],
+        ]);
         $serviceManager->setFactory('ServiceListener', 'Zend\\Mvc\\Service\\ServiceListenerFactory');
 
         $moduleManager = $serviceManager->get('ModuleManager');
@@ -71,13 +71,13 @@ class EmbedlyTest extends PHPUnit_Framework_TestCase
             [null, []],
             ['crop', [
                 'height' => 50,
-                'width' => 50,
+                'width'  => 50,
             ]],
             ['resize', []],
             ['fill', [
-                'color' => '000',
+                'color'  => '000',
                 'height' => 50,
-                'width' => 50,
+                'width'  => 50,
             ]],
         ];
     }

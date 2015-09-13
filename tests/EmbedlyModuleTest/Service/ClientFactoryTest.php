@@ -20,15 +20,15 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreateService()
     {
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
-        $serviceManager->setService('ApplicationConfig', array(
-            'modules' => array(
+        $serviceManager->setService('ApplicationConfig', [
+            'modules' => [
                 'EmbedlyModule',
-            ),
-            'module_listener_options' => array(
-                'config_glob_paths' => array(),
-                'module_paths' => array(),
-            ),
-        ));
+            ],
+            'module_listener_options' => [
+                'config_glob_paths' => [],
+                'module_paths'      => [],
+            ],
+        ]);
         $serviceManager->setFactory('ServiceListener', 'Zend\\Mvc\\Service\\ServiceListenerFactory');
 
         $moduleManager = $serviceManager->get('ModuleManager');
@@ -65,50 +65,50 @@ class ClientFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function wrongConfigurationDataProvider()
     {
-        return array(
-            array(
-                array(),
-            ),
-            array(
-                array(
-                    'embedly' => array(),
-                ),
-            ),
-            array(
-                array(
-                    'embedly' => array(
+        return [
+            [
+                [],
+            ],
+            [
+                [
+                    'embedly' => [],
+                ],
+            ],
+            [
+                [
+                    'embedly' => [
                         'api_key' => null,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'embedly' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'embedly' => [
                         'http_client' => null,
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'embedly' => array(
+                    ],
+                ],
+            ],
+            [
+                [
+                    'embedly' => [
                         'api_key' => 'correct',
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'embedly' => array(
-                        'api_key' => array(),
-                    ),
-                ),
-            ),
-            array(
-                array(
-                    'embedly' => array(
-                        'http_client' => array(),
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+            [
+                [
+                    'embedly' => [
+                        'api_key' => [],
+                    ],
+                ],
+            ],
+            [
+                [
+                    'embedly' => [
+                        'http_client' => [],
+                    ],
+                ],
+            ],
+        ];
     }
 }
