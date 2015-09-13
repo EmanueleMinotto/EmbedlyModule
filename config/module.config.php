@@ -1,30 +1,30 @@
 <?php
 
-return array(
+return [
     // Embedly configuration
-    'embedly' => array(
-        'api_key' => null,
+    'embedly' => [
+        'api_key'     => null,
         'http_client' => 'GuzzleHttp\\Client',
-    ),
+    ],
     // Service Manager configuration
-    'service_manager' => array(
-        'aliases' => array(
+    'service_manager' => [
+        'aliases' => [
             'embedly' => 'EmbedlyModule\\Service\\Client',
-        ),
-        'factories' => array(
+        ],
+        'factories' => [
             'EmbedlyModule\\Service\\Client' => 'EmbedlyModule\\Service\\ClientFactory',
-            'GuzzleHttp\\Client' => function ($serviceManager) {
+            'GuzzleHttp\\Client'             => function ($serviceManager) {
                 return new \GuzzleHttp\Client();
             },
-        ),
-    ),
+        ],
+    ],
     // View support
-    'view_helpers' => array(
-        'aliases' => array(
+    'view_helpers' => [
+        'aliases' => [
             'embedlyDisplay' => 'EmbedlyModule\\View\\Helper\\EmbedlyHelper',
-        ),
-        'factories' => array(
+        ],
+        'factories' => [
             'EmbedlyModule\\View\\Helper\\EmbedlyHelper' => 'EmbedlyModule\\View\\Helper\\EmbedlyHelperFactory',
-        ),
-    ),
-);
+        ],
+    ],
+];
